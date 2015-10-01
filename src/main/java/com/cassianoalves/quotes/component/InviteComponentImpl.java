@@ -26,4 +26,9 @@ public class InviteComponentImpl implements InviteComponent {
         emailComponent.sendInvite(savedInvite);
     }
 
+    @Override
+    public Invite findOne(String id) {
+        return inviteRepository.findOne(id);
+    }
+
 }

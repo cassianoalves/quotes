@@ -4,4 +4,5 @@ import com.cassianoalves.quotes.model.Invite;
 
 public interface InviteComponent {
     void initialize(Invite initialInvite);
+    Invite findOne(String id);
 }
