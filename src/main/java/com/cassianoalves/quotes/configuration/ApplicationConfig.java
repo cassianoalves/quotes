@@ -1,9 +1,31 @@
 package com.cassianoalves.quotes.configuration;
 
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.ComponentScan;
+import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+
+import java.util.Properties;
 
 @Configuration
 public class ApplicationConfig {
+
+    @Bean
+    public MailSender mailSender() {
+
+        JavaMailSenderImpl bean = new JavaMailSenderImpl();
+
+        bean.setHost(ObjectUtils.defaultIfNull(System.getProperty("quotes.mail.host"), "smtp.gmail.com"));
+        bean.setPort(Integer.parseInt(ObjectUtils.defaultIfNull(System.getProperty("quotes.mail.port"), "587")));
+        bean.setUsername(System.getProperty("quotes.mail.username"));
+        bean.setPassword(System.getProperty("quotes.mail.password"));
+        Properties mailProps = new Properties();
+        mailProps.put("mail.smtp.auth", true);
+        mailProps.put("mail.smtp.starttls.enable", true);
+
+        bean.setJavaMailProperties(mailProps);
+
+        return bean;
+    }
 }
