@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class EmailComponentImpl implements EmailComponent {
     private static final Logger LOGGER = LoggerFactory.getLogger(EmailComponentImpl.class);
+    private String webAppRoot;
 
     @Autowired
     private MailSender mailSender;
@@ -25,7 +26,9 @@ public class EmailComponentImpl implements EmailComponent {
         msg.setTo(invite.getGuestEmail());
         msg.setText("Você foi convidado a participar do The Quotes por " +
             invite.getHostUserName() + "!\n\n" +
-            "Para entrar, acesse: https://thequotes.heroku.com/invite/" + invite.getId() + "\n\n" +
+            "Para entrar, acesse: \n" +
+            webAppRoot +
+            "/signup?invite=" + invite.getId() + "\n\n" +
             "Bem-vindo!!!");
         try{
             this.mailSender.send(msg);
@@ -35,5 +38,13 @@ public class EmailComponentImpl implements EmailComponent {
             LOGGER.error("Error sending invite e-mail", ex);
             throw new ComponentException("Error sending invite e-mail " + invite,ex);
         }
+    }
+
+    public void setWebAppRoot(String webAppRoot) {
+        this.webAppRoot = webAppRoot;
+    }
+
+    public void setMailSender(MailSender mailSender) {
+        this.mailSender = mailSender;
     }
 }
