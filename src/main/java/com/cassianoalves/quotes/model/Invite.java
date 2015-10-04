@@ -1,6 +1,5 @@
 package com.cassianoalves.quotes.model;
 
-import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.annotation.Id;
 
 public class Invite {
