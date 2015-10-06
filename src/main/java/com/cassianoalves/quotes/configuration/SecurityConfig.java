@@ -3,6 +3,7 @@ package com.cassianoalves.quotes.configuration;
 import com.cassianoalves.quotes.component.security.RESTAuthenticationEntryPoint;
 import com.cassianoalves.quotes.component.security.RESTAuthenticationFailureHandler;
 import com.cassianoalves.quotes.component.security.RESTAuthenticationSuccessHandler;
+import com.cassianoalves.quotes.component.security.RESTLogoutSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -22,6 +23,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private RESTAuthenticationFailureHandler authenticationFailureHandler;
     @Autowired
     private RESTAuthenticationSuccessHandler authenticationSuccessHandler;
+    @Autowired
+    private RESTLogoutSuccessHandler logoutSuccessHandler;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -48,6 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                     .logoutUrl("/logout")
+                    .logoutSuccessHandler(logoutSuccessHandler)
                     .permitAll()
         ;
     }
