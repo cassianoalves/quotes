@@ -1,6 +1,7 @@
 package com.cassianoalves.quotes.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.data.annotation.Id;
 
@@ -16,7 +17,7 @@ public class User {
     private String name;
     private String email;
     @JsonIgnore // Nunca retornar ou mostrar senhas ou hashs de senha
-    private String passwordHash;
+    private String password;
     private Status status;
 
     public String getId() {
@@ -43,12 +44,14 @@ public class User {
         this.email = email;
     }
 
-    public String getPasswordHash() {
-        return passwordHash;
+    @JsonIgnore // Nunca retornar ou mostrar senhas ou hashs de senha
+    public String getPassword() {
+        return password;
     }
 
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
+    @JsonProperty // Para receber a senha quando da criação do usuário
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Status getStatus() {
@@ -65,7 +68,7 @@ public class User {
                 .append("id", id)
                 .append("name", name)
                 .append("email", email)
-                .append("passwordHash", "****")
+                .append("password", "****")
                 .append("status", status)
                 .toString();
     }

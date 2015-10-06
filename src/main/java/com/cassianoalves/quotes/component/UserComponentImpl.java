@@ -2,7 +2,6 @@ package com.cassianoalves.quotes.component;
 
 import com.cassianoalves.quotes.exception.ComponentException;
 import com.cassianoalves.quotes.model.Invite;
-import com.cassianoalves.quotes.model.SignUp;
 import com.cassianoalves.quotes.model.User;
 import com.cassianoalves.quotes.model.UserConfirmation;
 import com.cassianoalves.quotes.repository.InviteRepository;
@@ -26,25 +25,18 @@ public class UserComponentImpl implements UserComponent {
     private UserConfirmationRepository userConfirmationRepository;
 
     @Override
-    public User signUp(SignUp signUp) {
+    public User signUp(User user, String inviteId) {
         // Por enquanto só para convidados
-        if(signUp.getInviteId() == null) {
+        if(inviteId == null) {
             throw new ComponentException("At moment, guests only. Sorry.");
         }
 
-        Invite invite = inviteRepository.findOne(signUp.getInviteId());
+        Invite invite = inviteRepository.findOne(inviteId);
         if(invite == null) {
-            throw new ComponentException("Invite " + signUp.getInviteId() + " is invalid.");
+            throw new ComponentException("Invite " + inviteId + " is invalid.");
         }
 
-        if(!signUp.getPassword().equals(signUp.getPasswordConfirm())) {
-            throw new ComponentException("Passwords don't match.");
-        }
-
-        User user = new User();
-        user.setEmail(signUp.getEmail());
-        user.setName(signUp.getName());
-        user.setPasswordHash(DigestUtils.md5DigestAsHex(signUp.getPassword().getBytes(Charset.forName("UTF-8"))));
+        user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes(Charset.forName("UTF-8"))));
         user.setStatus(User.Status.NOT_CONFIRMED);
         User userSaved = userRepository.save(user);
 
@@ -56,5 +48,20 @@ public class UserComponentImpl implements UserComponent {
         emailComponent.sendConfirmation(confirmationCreated);
 
         return userSaved;
+    }
+
+    @Override
+    public User confirmUser(String confirmKey) {
+        UserConfirmation userConfirmation = userConfirmationRepository.findOne(confirmKey);
+        if(userConfirmation == null) {
+            return null;
+        }
+
+        User user = userConfirmation.getUser();
+        user.setStatus(User.Status.ACTIVE);
+        User updatedUser = userRepository.save(user);
+        userConfirmationRepository.delete(userConfirmation);
+
+        return updatedUser;
     }
 }

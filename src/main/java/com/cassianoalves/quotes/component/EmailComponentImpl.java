@@ -53,7 +53,7 @@ public class EmailComponentImpl implements EmailComponent {
         msg.setTo(userConfirmation.getUser().getEmail());
         msg.setText("Você se inscreveu no The Quotes. Confirme seu e-mail através desse link: \n" +
                 webAppRoot +
-                "/confirm?key=" + userConfirmation.getId() + "\n\n" +
+                "/confirm/" + userConfirmation.getId() + "\n\n" +
                 "Bem-vindo!!!");
         try{
             this.mailSender.send(msg);
