@@ -1,5 +1,8 @@
 package com.cassianoalves.quotes.configuration;
 
+import com.cassianoalves.quotes.component.security.RESTAuthenticationEntryPoint;
+import com.cassianoalves.quotes.component.security.RESTAuthenticationFailureHandler;
+import com.cassianoalves.quotes.component.security.RESTAuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -11,6 +14,15 @@ import org.springframework.security.config.annotation.web.servlet.configuration.
 @Configuration
 @EnableWebMvcSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+
+    @Autowired
+    private RESTAuthenticationEntryPoint authenticationEntryPoint;
+    @Autowired
+    private RESTAuthenticationFailureHandler authenticationFailureHandler;
+    @Autowired
+    private RESTAuthenticationSuccessHandler authenticationSuccessHandler;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -24,13 +36,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/invite/init").permitAll()
                 .anyRequest().authenticated()
 
-//                .and()
-//                .formLogin()
-//                .loginPage("/login")
-//                .permitAll()
-//                .and()
-//                .logout()
-//                .permitAll()
+                .and()
+                .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
+
+                .and()
+                .formLogin()
+                    .successHandler(authenticationSuccessHandler)
+                    .failureHandler(authenticationFailureHandler)
+                    .loginPage("/login")
+                    .permitAll()
+                .and()
+                .logout()
+                    .logoutUrl("/logout")
+                    .permitAll()
         ;
     }
 
