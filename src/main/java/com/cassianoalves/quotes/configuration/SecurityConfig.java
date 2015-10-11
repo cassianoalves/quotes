@@ -4,13 +4,16 @@ import com.cassianoalves.quotes.component.security.RESTAuthenticationEntryPoint;
 import com.cassianoalves.quotes.component.security.RESTAuthenticationFailureHandler;
 import com.cassianoalves.quotes.component.security.RESTAuthenticationSuccessHandler;
 import com.cassianoalves.quotes.component.security.RESTLogoutSuccessHandler;
+import org.apache.tomcat.util.net.jsse.openssl.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 @Configuration
 @EnableWebMvcSecurity
@@ -25,6 +28,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private RESTAuthenticationSuccessHandler authenticationSuccessHandler;
     @Autowired
     private RESTLogoutSuccessHandler logoutSuccessHandler;
+    @Autowired
+    private AuthenticationProvider quotesAuthenticationProvider;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -59,7 +64,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
-                .inMemoryAuthentication()
-                .withUser("user").password("password").roles("USER");
+                .authenticationProvider(quotesAuthenticationProvider)
+//                .inMemoryAuthentication()
+//                .withUser("user@quotes.com").password("password").roles("USER")
+        ;
     }
 }

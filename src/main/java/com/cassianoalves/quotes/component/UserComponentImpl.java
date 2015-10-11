@@ -64,4 +64,17 @@ public class UserComponentImpl implements UserComponent {
 
         return updatedUser;
     }
+
+    @Override
+    public User authenticate(String email, String openPassword) {
+        if(email == null || openPassword == null) {
+            return null;
+        }
+        User user = userRepository.findByEmail(email);
+        String passwordHash = DigestUtils.md5DigestAsHex(openPassword.getBytes(Charset.forName("UTF-8")));
+        if(user.getPassword().equals(passwordHash)) {
+            return user;
+        }
+        return null;
+    }
 }

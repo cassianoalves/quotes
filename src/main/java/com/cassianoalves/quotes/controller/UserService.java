@@ -33,4 +33,10 @@ public class UserService {
         }
         return new ResponseEntity(userConfirmed, HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/logged", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity getUserLogged() {
+        return ResponseEntity.ok().build(); // TODO: Retornar dados do usuario logado
+    }
 }
