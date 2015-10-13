@@ -6,6 +6,7 @@ import com.cassianoalves.quotes.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -37,6 +38,7 @@ public class UserService {
     @RequestMapping(value = "/logged", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity getUserLogged() {
-        return ResponseEntity.ok().build(); // TODO: Retornar dados do usuario logado
+        User loggedUser = (User) SecurityContextHolder.getContext().getAuthentication().getDetails();
+        return ResponseEntity.ok().body(loggedUser);
     }
 }
