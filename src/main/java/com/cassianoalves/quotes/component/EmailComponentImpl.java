@@ -30,6 +30,7 @@ public class EmailComponentImpl implements EmailComponent {
         LOGGER.info("Sending invite: " + invite);
 
         SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setSubject("Você foi convidado por " + invite.getHostUserName() + " para participar do \"The Quotes\"");
         msg.setTo(invite.getGuestEmail());
         msg.setText("Você foi convidado a participar do The Quotes por " +
             invite.getHostUserName() + "!\n\n" +
@@ -52,6 +53,7 @@ public class EmailComponentImpl implements EmailComponent {
         LOGGER.info("Sending confirmation: " + userConfirmation);
 
         SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setSubject("Confirmação de e-mail do \"The Quotes\"");
         msg.setTo(userConfirmation.getUser().getEmail());
         msg.setText("Você se inscreveu no The Quotes. Confirme seu e-mail através desse link: \n" +
                 webAppRoot +
