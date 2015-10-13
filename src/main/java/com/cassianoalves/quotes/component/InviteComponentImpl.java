@@ -6,6 +6,7 @@ import com.cassianoalves.quotes.model.User;
 import com.cassianoalves.quotes.repository.InviteRepository;
 import com.cassianoalves.quotes.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -44,6 +45,8 @@ public class InviteComponentImpl implements InviteComponent {
         if(i != null) {
             throw errorComponent.getComponentException(ComponentException.ErrorCode.INVITE_EXISTS);
         }
+        User loggedUser = (User) SecurityContextHolder.getContext().getAuthentication().getDetails();
+        invite.setHostUserName(loggedUser.getName());
         Invite savedInvite = inviteRepository.save(invite);
         emailComponent.sendInvite(savedInvite);
         return savedInvite;

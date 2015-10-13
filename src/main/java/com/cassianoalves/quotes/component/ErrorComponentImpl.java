@@ -10,7 +10,7 @@ import java.util.Map;
 @Component
 public class ErrorComponentImpl implements ErrorComponent {
     private Map<ComponentException.ErrorCode, QuotesError> errorMap = new ImmutableMap.Builder<ComponentException.ErrorCode, QuotesError>()
-            .put(ComponentException.ErrorCode.GENERAL_ERROR, new QuotesError(-1, "Unknown error"))
+            .put(ComponentException.ErrorCode.GENERAL_ERROR, new QuotesError(0, "Unknown error"))
             .put(ComponentException.ErrorCode.INVITE_EXISTS, new QuotesError(100, "Invite already sent"))
             .put(ComponentException.ErrorCode.USER_EXISTS, new QuotesError(101, "User already exists"))
             .put(ComponentException.ErrorCode.INVALID_INVITE, new QuotesError(102, "Invite is invalid"))
