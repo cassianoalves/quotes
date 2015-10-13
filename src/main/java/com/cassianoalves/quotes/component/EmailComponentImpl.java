@@ -22,6 +22,8 @@ public class EmailComponentImpl implements EmailComponent {
 
     @Autowired
     private MailSender mailSender;
+    @Autowired
+    private ErrorComponent errorComponent;
 
     @Override
     public void sendInvite(Invite invite) {
@@ -41,7 +43,7 @@ public class EmailComponentImpl implements EmailComponent {
         }
         catch (MailException ex) {
             LOGGER.error("Error sending invite e-mail", ex);
-            throw new ComponentException("Error sending invite e-mail " + invite,ex);
+            throw errorComponent.getComponentException(ex);
         }
     }
 
@@ -61,7 +63,7 @@ public class EmailComponentImpl implements EmailComponent {
         }
         catch (MailException ex) {
             LOGGER.error("Error sending userConfirmation e-mail", ex);
-            throw new ComponentException("Error sending userConfirmation e-mail " + userConfirmation, ex);
+            throw errorComponent.getComponentException(ex);
         }
     }
 

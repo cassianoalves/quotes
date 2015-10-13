@@ -23,17 +23,19 @@ public class UserComponentImpl implements UserComponent {
     private EmailComponent emailComponent;
     @Autowired
     private UserConfirmationRepository userConfirmationRepository;
+    @Autowired
+    private ErrorComponent errorComponent;
 
     @Override
     public User signUp(User user, String inviteId) {
         // Por enquanto só para convidados
         if(inviteId == null) {
-            throw new ComponentException("At moment, guests only. Sorry.");
+            throw errorComponent.getComponentException(ComponentException.ErrorCode.GUESTS_ONLY);
         }
 
         Invite invite = inviteRepository.findOne(inviteId);
         if(invite == null) {
-            throw new ComponentException("Invite " + inviteId + " is invalid.");
+            throw errorComponent.getComponentException(ComponentException.ErrorCode.INVALID_INVITE);
         }
 
         user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes(Charset.forName("UTF-8"))));
