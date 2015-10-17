@@ -6,7 +6,8 @@ public class ComponentException extends RuntimeException {
     public enum ErrorCode {
         GENERAL_ERROR,
         USER_EXISTS,
-        ALREADY_INITIALIZED, GUESTS_ONLY, INVALID_INVITE, INVITE_EXISTS
+        ALREADY_INITIALIZED, GUESTS_ONLY, INVALID_INVITE, INVITE_EXISTS,
+        INVALID_PASSWORD, USER_NOT_FOUND
     }
 
     private QuotesError error;

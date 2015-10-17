@@ -79,4 +79,26 @@ public class UserComponentImpl implements UserComponent {
         }
         return null;
     }
+
+    @Override
+    public User update(User user, String currentPassword) {
+        User currentUser = userRepository.findOne(user.getId());
+        if(currentUser == null) {
+            throw errorComponent.getComponentException(ComponentException.ErrorCode.USER_NOT_FOUND);
+        }
+        String passwordHash = DigestUtils.md5DigestAsHex(currentPassword.getBytes(Charset.forName("UTF-8")));
+        if(!currentUser.getPassword().equals(passwordHash)) {
+            throw errorComponent.getComponentException(ComponentException.ErrorCode.INVALID_PASSWORD);
+        }
+
+        user.setStatus(currentUser.getStatus());
+        if(user.getPassword() == null) {
+            user.setPassword(currentUser.getPassword()); // mantém hash da senha
+        } else {
+            // Nova senha como hash
+            user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes(Charset.forName("UTF-8"))));
+        }
+
+        return userRepository.save(user);
+    }
 }

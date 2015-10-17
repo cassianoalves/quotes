@@ -5,13 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.data.annotation.Id;
 
-public class User {
-    public enum Status {
-        NOT_CONFIRMED,
-        LOCKED,
-        ACTIVE
-    }
+import java.util.Map;
 
+public class User {
     @Id
     private String id;
     private String name;
@@ -19,6 +15,23 @@ public class User {
     @JsonIgnore // Nunca retornar ou mostrar senhas ou hashs de senha
     private String password;
     private Status status;
+
+    public User() {
+        // default contructor
+    }
+
+    public User(Map<String, Object> userMap) {
+        this.id = (String) userMap.get("id");
+        this.name = (String) userMap.get("name");
+        this.email = (String) userMap.get("email");
+        this.password = (String) userMap.get("password");
+    }
+
+    public enum Status {
+        NOT_CONFIRMED,
+        LOCKED,
+        ACTIVE
+    }
 
     public String getId() {
         return id;

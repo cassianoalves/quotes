@@ -24,6 +24,14 @@ public class UserService {
         return userComponent.signUp(user, inviteId);
     }
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    public User update(@RequestBody Map<String, Object> userMap)
+    {
+        User user = new User(userMap);
+        return userComponent.update(user, (String) userMap.get("currentPassword"));
+    }
+
     @RequestMapping(value = "/confirm/{confirmKey}", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<User> confirm(@PathVariable("confirmKey") String confirmKey)

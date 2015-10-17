@@ -6,4 +6,5 @@ public interface UserComponent {
     User signUp(User user, String inviteId);
     User confirmUser(String confirmKey);
     User authenticate(String email, String openPassword);
+    User update(User user, String currentPassword);
 }
