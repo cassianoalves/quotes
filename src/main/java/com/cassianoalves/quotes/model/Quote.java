@@ -1,7 +1,9 @@
 package com.cassianoalves.quotes.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
+import com.cassianoalves.quotes.view.QuoteView;
 
 public class Quote {
     @Id
@@ -9,7 +11,9 @@ public class Quote {
     private String bookId;
     @DBRef
     private User createdBy;
+    @JsonView(QuoteView.Random.class)
     private String phrase;
+    @JsonView(QuoteView.Random.class)
     private String author;
 
     public Quote() {

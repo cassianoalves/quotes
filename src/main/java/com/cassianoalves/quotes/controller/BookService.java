@@ -2,8 +2,11 @@ package com.cassianoalves.quotes.controller;
 
 import com.cassianoalves.quotes.component.BookComponent;
 import com.cassianoalves.quotes.model.Quote;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import com.cassianoalves.quotes.view.QuoteView;
 
 import java.util.List;
 
@@ -13,7 +16,6 @@ public class BookService {
 
     @Autowired
     private BookComponent bookComponent;
-
 
     @RequestMapping(value = "/{bookId}/quote", method = RequestMethod.POST)
     @ResponseBody
@@ -33,4 +35,17 @@ public class BookService {
         bookComponent.deleteQuote(quoteId);
     }
 
+    @JsonView(QuoteView.Random.class)
+    @RequestMapping(value = "/{bookId}/quote/random", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    Quote getRandomQuote(@PathVariable("bookId") String bookId) {
+        return bookComponent.getRandomQuote(bookId);
+    }
+
+    @RequestMapping(value = "/{bookId}/quote/random", method = RequestMethod.GET)
+    @ResponseBody
+    String getRandomQuoteText(@PathVariable("bookId") String bookId) {
+        Quote quote = bookComponent.getRandomQuote(bookId);
+        return quote.getPhrase() + "\n" + "-- " + quote.getAuthor();
+    }
 }

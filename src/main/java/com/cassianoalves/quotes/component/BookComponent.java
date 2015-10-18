@@ -8,4 +8,5 @@ public interface BookComponent {
     Quote newQuote(String bookId, Quote quote);
     List<Quote> getAllQuotes(String bookId);
     void deleteQuote(String quoteId);
+    Quote getRandomQuote(String bookId);
 }

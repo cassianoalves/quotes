@@ -9,7 +9,9 @@ import org.springframework.mail.MailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.web.servlet.DispatcherServlet;
 
+import java.util.Date;
 import java.util.Properties;
+import java.util.Random;
 
 @Configuration
 public class ApplicationConfig {
@@ -37,6 +39,11 @@ public class ApplicationConfig {
         emailComponent.setWebAppRoot(ObjectUtils.defaultIfNull(System.getProperty("quotes.web.root.url"), "http://localhost:9000/#"));
         emailComponent.setMailSender(mailSender());
         return emailComponent;
+    }
+
+    @Bean
+    public Random random() {
+        return new Random(new Date().getTime());
     }
 
 }
