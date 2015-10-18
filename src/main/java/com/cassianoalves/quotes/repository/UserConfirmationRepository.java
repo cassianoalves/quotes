@@ -1,6 +1,5 @@
 package com.cassianoalves.quotes.repository;
 
-import com.cassianoalves.quotes.model.Invite;
 import com.cassianoalves.quotes.model.UserConfirmation;
 import org.springframework.data.mongodb.repository.MongoRepository;
 

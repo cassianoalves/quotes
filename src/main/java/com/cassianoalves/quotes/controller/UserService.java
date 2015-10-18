@@ -26,9 +26,10 @@ public class UserService {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.POST)
     @ResponseBody
-    public User update(@RequestBody Map<String, Object> userMap)
+    public User update(@RequestBody Map<String, Object> userMap, @PathVariable String id)
     {
         User user = new User(userMap);
+        user.setId(id);
         return userComponent.update(user, (String) userMap.get("currentPassword"));
     }
 
