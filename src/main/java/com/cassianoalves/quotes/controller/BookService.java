@@ -27,5 +27,10 @@ public class BookService {
         return bookComponent.getAllQuotes(bookId);
     }
 
+    @RequestMapping(value = "/{bookId}/quote/{quoteId}", method = RequestMethod.DELETE)
+    @ResponseBody
+    void deleteQuote(@PathVariable("quoteId") String quoteId) {
+        bookComponent.deleteQuote(quoteId);
+    }
 
 }

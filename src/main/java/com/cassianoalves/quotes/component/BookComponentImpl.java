@@ -29,4 +29,9 @@ public class BookComponentImpl implements BookComponent {
     public List<Quote> getAllQuotes(String bookId) {
         return quoteRepository.findByBookId(bookId);
     }
+
+    @Override
+    public void deleteQuote(String quoteId) {
+        quoteRepository.delete(quoteId);
+    }
 }
