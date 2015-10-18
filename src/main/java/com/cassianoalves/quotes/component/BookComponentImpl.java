@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class BookComponentImpl implements BookComponent {
     @Autowired
@@ -21,5 +23,10 @@ public class BookComponentImpl implements BookComponent {
 
         Quote newQuote = new Quote(bookId, loggedUser, quote.getPhrase(), quote.getAuthor());
         return quoteRepository.save(newQuote);
+    }
+
+    @Override
+    public List<Quote> getAllQuotes(String bookId) {
+        return quoteRepository.findByBookId(bookId);
     }
 }
