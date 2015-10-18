@@ -39,6 +39,11 @@
             <version>${spring-boot.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongo-java-driver</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.1</version>
@@ -89,6 +94,7 @@
                     <processTypes>
                         <!-- Tell Heroku how to launch your application -->
                         <!-- You might have to remove the ./ in front   -->
+                        <!--mongodb://heroku_nrjn52f5:2ubte3oouido7g06iaapvupnrt@ds051913.mongolab.com:51913/heroku_nrjn52f5-->
                         <web>java -Dserver.port=$PORT -Dspring.data.mongodb.uri=$MONGOLAB_URI -Dquotes.mail.host=$MAIL_HOST -Dquotes.mail.port=$MAIL_PORT -Dquotes.mail.username=$MAIL_USER -Dquotes.mail.password=$MAIL_PASSWD -jar ./target/${project.artifactId}-${project.version}.jar</web>
                     </processTypes>
                 </configuration>
