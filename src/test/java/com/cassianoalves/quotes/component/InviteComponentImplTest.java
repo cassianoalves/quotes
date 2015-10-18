@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static org.junit.Assert.*;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.same;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -24,10 +25,13 @@ public class InviteComponentImplTest {
     private InviteRepository inviteRepository;
     @Mock
     private EmailComponent emailComponent;
+    @Mock
+    private ErrorComponent errorComponent;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
+        when(errorComponent.getComponentException(any(ComponentException.ErrorCode.class))).thenReturn(new ComponentException());
     }
 
     @Test (expected = ComponentException.class)

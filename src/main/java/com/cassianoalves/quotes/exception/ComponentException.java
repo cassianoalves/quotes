@@ -12,6 +12,10 @@ public class ComponentException extends RuntimeException {
 
     private QuotesError error;
 
+    public ComponentException() {
+        super();
+    }
+
     public ComponentException(QuotesError quotesError) {
         super(quotesError.getMessage());
         error = quotesError;
