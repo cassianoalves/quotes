@@ -2,6 +2,7 @@ package com.cassianoalves.quotes.component;
 
 import com.cassianoalves.quotes.exception.ComponentException;
 import com.cassianoalves.quotes.model.Invite;
+import com.cassianoalves.quotes.model.User;
 import com.cassianoalves.quotes.model.UserConfirmation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,6 +66,30 @@ public class EmailComponentImpl implements EmailComponent {
         }
         catch (MailException ex) {
             LOGGER.error("Error sending userConfirmation e-mail", ex);
+            throw errorComponent.getComponentException(ex);
+        }
+    }
+
+    @Override
+    public void sendDataChange(User user, boolean passwordChanged) {
+        LOGGER.info("Sending UserDataChange: {}, passwd {} changed", user, passwordChanged ? "was" : "not");
+
+        SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setSubject("\"The Quotes\" - alteração de dados");
+        msg.setTo(user.getEmail());
+        msg.setText("Os dados da sua conta " +
+                "foram alterados. Os dados atuais são: \n" +
+                "Nome: " + user.getName() + "\n" +
+                "E-mail: " + user.getEmail() + "\n" +
+                "Senha: * " + (passwordChanged ? "alterada" : "mantida") + " *\n" +
+                "\n" +
+                "\"The Quotes\" Master");
+        try{
+            this.mailSender.send(msg);
+            LOGGER.info("Mail sent - UserDataChange: {}, passwd {} changed", user, passwordChanged ? "was" : "not");
+        }
+        catch (MailException ex) {
+            LOGGER.error("Error sending UserDataChange e-mail", ex);
             throw errorComponent.getComponentException(ex);
         }
     }

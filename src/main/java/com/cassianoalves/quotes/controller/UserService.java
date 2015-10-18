@@ -47,6 +47,7 @@ public class UserService {
     @ResponseBody
     public ResponseEntity getUserLogged() {
         User loggedUser = (User) SecurityContextHolder.getContext().getAuthentication().getDetails();
-        return ResponseEntity.ok().body(loggedUser);
+        User currentUser = userComponent.findById(loggedUser.getId());
+        return ResponseEntity.ok().body(currentUser);
     }
 }

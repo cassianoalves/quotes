@@ -92,13 +92,22 @@ public class UserComponentImpl implements UserComponent {
         }
 
         user.setStatus(currentUser.getStatus());
+        boolean passwordChanged = false;
         if(user.getPassword() == null) {
             user.setPassword(currentUser.getPassword()); // mantém hash da senha
         } else {
             // Nova senha como hash
             user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes(Charset.forName("UTF-8"))));
+            passwordChanged = true;
         }
 
-        return userRepository.save(user);
+        User updatedUser = userRepository.save(user);
+        emailComponent.sendDataChange(user, passwordChanged);
+        return updatedUser;
+    }
+
+    @Override
+    public User findById(String id) {
+        return userRepository.findOne(id);
     }
 }

@@ -7,4 +7,5 @@ public interface UserComponent {
     User confirmUser(String confirmKey);
     User authenticate(String email, String openPassword);
     User update(User user, String currentPassword);
+    User findById(String id);
 }
