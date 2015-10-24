@@ -3,11 +3,16 @@ package com.cassianoalves.quotes.controller;
 import com.cassianoalves.quotes.component.BookComponent;
 import com.cassianoalves.quotes.model.Quote;
 import com.fasterxml.jackson.annotation.JsonView;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.cassianoalves.quotes.view.QuoteView;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.List;
 
 @RestController
@@ -35,6 +40,23 @@ public class BookService {
         bookComponent.deleteQuote(quoteId);
     }
 
+    @RequestMapping(value = "/{bookId}/quote/random", method = RequestMethod.GET)
+    @ResponseBody
+    String getRandomQuoteText(@PathVariable("bookId") String bookId) {
+        Quote quote = bookComponent.getRandomQuote(bookId);
+        return quote.getPhrase() + "\n" + "-- " + quote.getAuthor();
+    }
+
+
+    @RequestMapping(value = "/{bookId}/quote/random", method = RequestMethod.GET, params = "charset")
+    @ResponseBody
+    byte[] getRandomQuoteTextCharset(
+            @PathVariable("bookId") String bookId,
+            @RequestParam("charset") String charset) throws UnsupportedEncodingException {
+        System.out.println("charset: " + charset);
+        return getRandomQuoteText(bookId).getBytes(charset);
+    }
+
     @JsonView(QuoteView.Random.class)
     @RequestMapping(value = "/{bookId}/quote/random", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
@@ -42,10 +64,4 @@ public class BookService {
         return bookComponent.getRandomQuote(bookId);
     }
 
-    @RequestMapping(value = "/{bookId}/quote/random", method = RequestMethod.GET)
-    @ResponseBody
-    String getRandomQuoteText(@PathVariable("bookId") String bookId) {
-        Quote quote = bookComponent.getRandomQuote(bookId);
-        return quote.getPhrase() + "\n" + "-- " + quote.getAuthor();
-    }
 }
