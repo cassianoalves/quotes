@@ -1,6 +1,8 @@
 package com.cassianoalves.quotes.controller;
 
 import com.cassianoalves.quotes.component.BookComponent;
+import com.cassianoalves.quotes.component.HistoryComponent;
+import com.cassianoalves.quotes.model.History;
 import com.cassianoalves.quotes.model.Quote;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
@@ -21,10 +23,13 @@ public class BookService {
 
     @Autowired
     private BookComponent bookComponent;
+    @Autowired
+    private HistoryComponent historyComponent;
 
     @RequestMapping(value = "/{bookId}/quote", method = RequestMethod.POST)
     @ResponseBody
     Quote newQuote(@RequestBody Quote quote, @PathVariable("bookId") String bookId) {
+        historyComponent.insertEvent(History.Event.INSERT_QUOTE);
         return bookComponent.newQuote(bookId, quote);
     }
 
