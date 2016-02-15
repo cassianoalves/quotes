@@ -102,11 +102,12 @@
                         <!-- Tell Heroku how to launch your application -->
                         <!-- You might have to remove the ./ in front   -->
                         <!-- Para o deploy: mvn clean heroku:deploy -->
-                        <web>java -jar target/${project.artifactId}-${project.version}.jar --spring.config.location=/app/config</web>
+                        <!--<web>java -jar target/${project.artifactId}-${project.version}.jar &#45;&#45;spring.config.location=/app/config</web>-->
+                        <web>java -jar target/${project.artifactId}-${project.version}.jar --server.port=$PORT spring.mail.properties.mail.smtp.ssl.enable=true spring.mail.properties.mail.smtp.auth=true spring.mail.port=$MAIL_PORT spring.mail.host=$MAIL_HOST spring.mail.username=$MAIL_USER spring.mail.password=$MAIL_PASSWD quotes.master.email=$MASTER_EMAIL quotes.web.root.url=$WEB_BASE_URL spring.data.mongodb.uri=$MONGOLAB_URI</web>
                     </processTypes>
-                    <includes>
-                        <include>config/application.properties</include>
-                    </includes>
+                    <!--<includes>-->
+                        <!--<include>config/application.properties</include>-->
+                    <!--</includes>-->
                 </configuration>
             </plugin>
         </plugins>
