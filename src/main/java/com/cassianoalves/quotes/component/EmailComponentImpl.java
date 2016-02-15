@@ -7,6 +7,7 @@ import com.cassianoalves.quotes.model.UserConfirmation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
@@ -19,6 +20,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class EmailComponentImpl implements EmailComponent {
     private static final Logger LOGGER = LoggerFactory.getLogger(EmailComponentImpl.class);
+
+    @Value("${quotes.web.root.url:http://localhost:9000/#}")
     private String webAppRoot;
 
     @Autowired
