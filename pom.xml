@@ -101,7 +101,7 @@
                     <processTypes>
                         <!-- Tell Heroku how to launch your application -->
                         <!-- You might have to remove the ./ in front   -->
-                        <!-- Para o deploy: mvn clean heroku:deploy-war -->
+                        <!-- Para o deploy: mvn clean heroku:deploy -->
                         <web>java -jar ./target/${project.artifactId}-${project.version}.jar</web>
                     </processTypes>
                 </configuration>
