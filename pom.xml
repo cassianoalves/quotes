@@ -104,6 +104,9 @@
                         <!-- Para o deploy: mvn clean heroku:deploy -->
                         <web>java -jar ./target/${project.artifactId}-${project.version}.jar</web>
                     </processTypes>
+                    <includes>
+                        <include>config/application.properties</include>
+                    </includes>
                 </configuration>
             </plugin>
         </plugins>
