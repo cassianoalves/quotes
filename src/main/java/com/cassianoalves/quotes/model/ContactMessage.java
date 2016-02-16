@@ -9,6 +9,7 @@ public class ContactMessage {
         COMPLAIN,
         SUGESTION,
         TROUBLES,
+        COMPLIMENT,
         OTHER
     }
 
