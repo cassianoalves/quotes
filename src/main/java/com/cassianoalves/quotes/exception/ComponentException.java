@@ -7,7 +7,7 @@ public class ComponentException extends RuntimeException {
         GENERAL_ERROR,
         USER_EXISTS,
         ALREADY_INITIALIZED, GUESTS_ONLY, INVALID_INVITE, INVITE_EXISTS,
-        INVALID_PASSWORD, USER_NOT_FOUND
+        INVALID_PASSWORD, EMAIL_PLEASE, USER_NOT_FOUND
     }
 
     private QuotesError error;

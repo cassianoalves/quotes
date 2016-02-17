@@ -11,13 +11,14 @@ import java.util.Map;
 public class ErrorComponentImpl implements ErrorComponent {
     private Map<ComponentException.ErrorCode, QuotesError> errorMap = new ImmutableMap.Builder<ComponentException.ErrorCode, QuotesError>()
             .put(ComponentException.ErrorCode.GENERAL_ERROR, new QuotesError(0, "Unknown error"))
+            .put(ComponentException.ErrorCode.ALREADY_INITIALIZED, new QuotesError(1, "System already initialized"))
+            .put(ComponentException.ErrorCode.GUESTS_ONLY, new QuotesError(2, "At moment, guests only. Sorry."))
             .put(ComponentException.ErrorCode.INVITE_EXISTS, new QuotesError(100, "Invite already sent"))
             .put(ComponentException.ErrorCode.USER_EXISTS, new QuotesError(101, "User already exists"))
             .put(ComponentException.ErrorCode.INVALID_INVITE, new QuotesError(102, "Invite is invalid"))
             .put(ComponentException.ErrorCode.INVALID_PASSWORD, new QuotesError(103, "Invalid password"))
             .put(ComponentException.ErrorCode.USER_NOT_FOUND, new QuotesError(104, "User not found"))
-            .put(ComponentException.ErrorCode.ALREADY_INITIALIZED, new QuotesError(1, "System already initialized"))
-            .put(ComponentException.ErrorCode.GUESTS_ONLY, new QuotesError(2, "At moment, guests only. Sorry."))
+            .put(ComponentException.ErrorCode.EMAIL_PLEASE, new QuotesError(201, "Please, inform your e-mail"))
             .build();
 
     @Override
