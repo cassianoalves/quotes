@@ -17,6 +17,10 @@ public class QuotesExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<QuotesError> componentException(HttpServletRequest req, Exception exception) {
         ComponentException componentException = (ComponentException) exception;
         QuotesError quotesError = componentException.getError();
-        return new ResponseEntity(new QuotesError(quotesError.getCode(), quotesError.getMessage()), HttpStatus.NOT_ACCEPTABLE);
+        String message = quotesError.getMessage();
+        if(componentException.getCause() != null) {
+            message += " - " + componentException.getCause().getMessage();
+        }
+        return new ResponseEntity(new QuotesError(quotesError.getCode(), message), HttpStatus.NOT_ACCEPTABLE);
     }
 }
